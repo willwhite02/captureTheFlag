@@ -1,0 +1,37 @@
+get ips and record
+so 
+inet 10.1.5.2/24 brd 10.1.5.255 scope global eth1
+inet 172.30.0.16/16 brd 172.30.255.255 scope global dynamic eth0
+
+# SETUP
+
+sudo apt update
+sudo apt install snort
+sudo apt install iptables
+
+# enter those ips (if you screw it up, change permissions and use "sudo chown $USER:$USER /path/to/myfile" and go to /etc/snort/snort.conf, find "ipvar HOME_NET any" and change to look like "ipvar HOME_NET [192.168.1.0/24,10.0.0.0/8]")
+
+# add rules
+sudo chown $USER:$USER /etc/snort/rules/local.rules
+sudo chmod +rwx /etc/snort/rules/local.rules
+
+# restart snort
+sudo systemctl restart snort
+
+### TRY TO RUN THAT FILE ON SERVER
+
+# make pages
+cd /var/www/html
+for i in {1..10}; do sudo bash -c "echo '<html><head><title>Page $i</title></head><body><h1>This is page $i</h1></body></html>' > /var/www/html/$i.html"; done
+sudo chown -R www-data:www-data /var/www/html
+sudo chmod -R 755 /var/www/html
+
+172.30.0.16/16
+10.1.5.2/24
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+install lamp server, snort and iptables
+set up web pages
+add rules to snort
+add firewall rules
